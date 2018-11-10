@@ -61,3 +61,13 @@ for group in rowdy_groups:
 	group = [str(elem) for elem in group]
 	param_file.write(str(group) + '\n')
 print("Finished Generating Rowdy Groups")
+
+output_file = open('small.out', 'w')
+assignments = {}
+for node, bus_num in V.items():
+	assignments.setdefault(bus_num, []).append(node)
+assignments = list(assignments.values())
+for group in assignments:
+	group = [str(elem) for elem in group]
+	output_file.write(str(group) + '\n')
+print("Finished Creating Output File")

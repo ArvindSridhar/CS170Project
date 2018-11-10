@@ -1,3 +1,4 @@
 *.gml
 *.png
 parameters.txt
+*.out
