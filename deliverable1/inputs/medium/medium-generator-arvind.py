@@ -3,11 +3,11 @@ import matplotlib.pyplot as plt
 import random
 
 # Setting constants
-BUS_COUNT = 5
-BUS_SIZE = 10
-EXTRA_FRIEND_CONNS = 15
-NUM_ROWDY_GROUPS = 100
-ROWDY_GROUP_MAX_SIZE = 10
+BUS_COUNT = 20
+BUS_SIZE = 25
+EXTRA_FRIEND_CONNS = 100
+NUM_ROWDY_GROUPS = 1000
+ROWDY_GROUP_MAX_SIZE = 25
 NUM_STUDENTS = BUS_COUNT * BUS_SIZE
 
 # Initializing graph parameters
@@ -49,7 +49,7 @@ param_file.write(str(BUS_SIZE) + '\n')
 rowdy_groups = []
 count = 0
 while count < NUM_ROWDY_GROUPS:
-	num_in_group = random.randint(ROWDY_GROUP_MAX_SIZE - 2, ROWDY_GROUP_MAX_SIZE) # Can tune this range
+	num_in_group = random.randint(ROWDY_GROUP_MAX_SIZE - 5, ROWDY_GROUP_MAX_SIZE) # Can tune this range
 	group = []
 	for i in range(num_in_group):
 		j = random.choice([elem for elem in range(NUM_STUDENTS) if elem not in group])
