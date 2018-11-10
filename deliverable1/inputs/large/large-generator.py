@@ -2,12 +2,12 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import random
 
-# Small: 25-50 students and at most 100 constraining sets
-INPUT_SIZE = 'small'
-BUS_COUNT = 10 # Must be at least 2
-BUS_SIZE = 3
-ROWDY_GROUPS_MAX = 100
-MIN_ROWDY_GROUP_SIZE = 2 # Must be at most BUS_SIZE
+# Large: 500-1000 students and at most 2000 constraining sets
+INPUT_SIZE = 'large'
+BUS_COUNT = 100 # Must be at least 2
+BUS_SIZE = 10
+ROWDY_GROUPS_MAX = 2000
+MIN_ROWDY_GROUP_SIZE = 5 # Must be at most BUS_SIZE
 STUDENT_COUNT = BUS_COUNT * BUS_SIZE
 EXTRA_CONNECTIONS = STUDENT_COUNT
 
