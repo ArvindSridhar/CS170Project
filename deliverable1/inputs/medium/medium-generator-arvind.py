@@ -9,6 +9,7 @@ EXTRA_FRIEND_CONNS = 100
 NUM_ROWDY_GROUPS = 1000
 ROWDY_GROUP_MAX_SIZE = 25
 NUM_STUDENTS = BUS_COUNT * BUS_SIZE
+INPUT_SIZE = 'medium'
 
 # Initializing graph parameters
 G = nx.Graph()
@@ -62,7 +63,7 @@ for group in rowdy_groups:
 	param_file.write(str(group) + '\n')
 print("Finished Generating Rowdy Groups")
 
-output_file = open('medium.out', 'w')
+output_file = open('../../outputs/' + INPUT_SIZE + '/' + INPUT_SIZE + '.out', 'w')
 assignments = {}
 for node, bus_num in V.items():
 	assignments.setdefault(bus_num, []).append(node)
