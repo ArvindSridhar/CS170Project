@@ -37,8 +37,9 @@ for bus in buses:
     output_file.write(str([str(i) for i in bus]) + '\n')
 
 # Draw solution in solution.png
-# nx.draw(G)
-# plt.savefig('solution.png')
+nx.draw(G, with_labels=True)
+plt.savefig('solution.png')
+plt.gcf().clear()
 
 # Add EXTRA_CONNECTIONS number of extra connections
 for i in range(EXTRA_CONNECTIONS):
@@ -49,8 +50,9 @@ for i in range(EXTRA_CONNECTIONS):
     G.add_edge(student_1, student_2)
 
 # Draw graph of student connections in connections.png
-# nx.draw(G)
-# plt.savefig('connections.png')
+nx.draw(G, with_labels=True)
+plt.savefig('connections.png')
+plt.gcf().clear()
 
 # Write graph of student connections to graph.gml
 nx.write_gml(G, 'graph.gml', nx.readwrite.gml.literal_stringizer)
@@ -58,6 +60,8 @@ nx.write_gml(G, 'graph.gml', nx.readwrite.gml.literal_stringizer)
 
 param_file = open('parameters.txt', 'w')
 rowdies_graph = nx.Graph()
+for i in range(STUDENT_COUNT):
+    rowdies_graph.add_node(i)
 
 param_file.write(str(BUS_COUNT) + '\n')
 param_file.write(str(BUS_SIZE) + '\n')
@@ -77,7 +81,11 @@ for group in range(ROWDY_GROUPS_MAX):
 # Write rowdy groups to parameters.txt
 for group in rowdy_groups:
     param_file.write(str([str(i) for i in group]) + '\n')
+    for i in range(len(group)):
+        for j in range(i + 1, len(group)):
+            rowdies_graph.add_edge(group[i], group[j])
 
 # Draw rowdy groups in graph.png
-# nx.draw(rowdies_graph)
-# plt.savefig('graph.png')
+nx.draw(rowdies_graph, with_labels=True)
+plt.savefig('rowdies.png')
+plt.gcf().clear()
