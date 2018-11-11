@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import random
 
 # Large: 500-1000 students and at most 2000 constraining sets
+# Should be run from within /large/ directory
 INPUT_SIZE = 'large'
 BUS_COUNT = 100 # Must be at least 2
 BUS_SIZE = 10

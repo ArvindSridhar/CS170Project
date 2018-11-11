@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import random
 
 # Small: 25-50 students and at most 100 constraining sets
+# Should be run from within /small/ directory
 INPUT_SIZE = 'small'
 BUS_COUNT = 10 # Must be at least 2
 BUS_SIZE = 3

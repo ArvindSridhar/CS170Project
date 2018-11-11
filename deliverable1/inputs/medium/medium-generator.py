@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import random
 
 # Medium: 250-500 students and at most 1000 constraining sets
+# Should be run from within /medium/ directory
 INPUT_SIZE = 'medium'
 BUS_COUNT = 10 # Must be at least 2
 BUS_SIZE = 50
