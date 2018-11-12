@@ -6,15 +6,14 @@ import random
 # Should be run from within /small/ directory
 INPUT_SIZE = 'small'
 BUS_COUNT = 10 # Must be at least 2
-BUS_SIZE = 3
+BUS_SIZE = 5
 ROWDY_GROUPS_MAX = 100
-MIN_ROWDY_GROUP_SIZE = 2 # Must be at most BUS_SIZE
+MIN_ROWDY_GROUP_SIZE = 3 # Must be at most BUS_SIZE
 STUDENT_COUNT = BUS_COUNT * BUS_SIZE
 EXTRA_CONNECTIONS = STUDENT_COUNT
 
-G = nx.Graph()
-
 # Graph of size STUDENT_COUNT
+G = nx.Graph()
 students = [i for i in range(STUDENT_COUNT)]
 for student in students:
     G.add_node(student)
@@ -58,19 +57,18 @@ plt.gcf().clear()
 # Write graph of student connections to graph.gml
 nx.write_gml(G, 'graph.gml', nx.readwrite.gml.literal_stringizer)
 
-
+# Start writing parameters file
 param_file = open('parameters.txt', 'w')
-rowdies_graph = nx.Graph()
-for i in range(STUDENT_COUNT):
-    rowdies_graph.add_node(i)
-
 param_file.write(str(BUS_COUNT) + '\n')
 param_file.write(str(BUS_SIZE) + '\n')
 
 # Rowdy group generation
+rowdies_graph = nx.Graph()
+for i in range(STUDENT_COUNT):
+    rowdies_graph.add_node(i)
 rowdy_groups = []
 for group in range(ROWDY_GROUPS_MAX):
-    group_size = random.choice(range(MIN_ROWDY_GROUP_SIZE, BUS_SIZE))
+    group_size = random.choice(range(MIN_ROWDY_GROUP_SIZE, BUS_SIZE + 1))
     random_buses = random.sample(range(BUS_COUNT), 2)
     random_indices = random.sample(range(BUS_SIZE), 2)
     student_1 = buses[random_buses[0]][random_indices[0]]
