@@ -1,0 +1,2 @@
+Create output for [size] by navigating to '/inputs/[size]' and running 'python [size]-generator.py'.
+This writes the appropriate graph.gml and parameters.txt, and also writes [size].out to outputs folder.

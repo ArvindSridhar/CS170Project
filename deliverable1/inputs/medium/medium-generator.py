@@ -16,7 +16,7 @@ EXTRA_CONNECTIONS = STUDENT_COUNT
 G = nx.Graph()
 students = [i for i in range(STUDENT_COUNT)]
 for student in students:
-    G.add_node(student)
+    G.add_node(str(student))
 
 # Create groups of size BUS_SIZE
 random.shuffle(students)
@@ -29,7 +29,7 @@ for bus_num in range(BUS_COUNT):
 for bus in buses:
     for first_student_index in range(BUS_SIZE):
         for second_student_index in range(first_student_index + 1, BUS_SIZE):
-            G.add_edge(bus[first_student_index], bus[second_student_index])
+            G.add_edge(str(bus[first_student_index]), str(bus[second_student_index]))
 
 # Place these groups in output
 output_file = open('../../outputs/' + INPUT_SIZE + '.out', 'w')
@@ -47,7 +47,7 @@ for i in range(EXTRA_CONNECTIONS):
     random_indices = random.sample(range(BUS_SIZE), 2)
     student_1 = buses[random_buses[0]][random_indices[0]]
     student_2 = buses[random_buses[1]][random_indices[1]]
-    G.add_edge(student_1, student_2)
+    G.add_edge(str(student_1), str(student_2))
 
 # Draw graph of student connections in connections.png
 nx.draw(G, with_labels=True)
@@ -55,7 +55,7 @@ plt.savefig('connections.png')
 plt.gcf().clear()
 
 # Write graph of student connections to graph.gml
-nx.write_gml(G, 'graph.gml', nx.readwrite.gml.literal_stringizer)
+nx.write_gml(G, 'graph.gml')
 
 # Start writing parameters file
 param_file = open('parameters.txt', 'w')
