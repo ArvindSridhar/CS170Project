@@ -68,7 +68,7 @@ for i in range(STUDENT_COUNT):
     rowdies_graph.add_node(i)
 rowdy_groups = []
 for group in range(ROWDY_GROUPS_MAX):
-    group_size = random.choice(range(MIN_ROWDY_GROUP_SIZE, BUS_SIZE + 1))
+    group_size = random.choice(range(MIN_ROWDY_GROUP_SIZE, BUS_SIZE))
     random_buses = random.sample(range(BUS_COUNT), 2)
     random_indices = random.sample(range(BUS_SIZE), 2)
     student_1 = buses[random_buses[0]][random_indices[0]]

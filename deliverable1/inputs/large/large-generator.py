@@ -10,7 +10,7 @@ BUS_SIZE = 10
 ROWDY_GROUPS_MAX = 2000
 MIN_ROWDY_GROUP_SIZE = 5 # Must be at most BUS_SIZE
 STUDENT_COUNT = BUS_COUNT * BUS_SIZE
-EXTRA_CONNECTIONS = STUDENT_COUNT
+EXTRA_CONNECTIONS = int(STUDENT_COUNT * (STUDENT_COUNT + 1) / 8)
 
 # Graph of size STUDENT_COUNT
 G = nx.Graph()
@@ -68,7 +68,7 @@ for i in range(STUDENT_COUNT):
     rowdies_graph.add_node(i)
 rowdy_groups = []
 for group in range(ROWDY_GROUPS_MAX):
-    group_size = random.choice(range(MIN_ROWDY_GROUP_SIZE, BUS_SIZE + 1))
+    group_size = random.choice(range(MIN_ROWDY_GROUP_SIZE, BUS_SIZE))
     random_buses = random.sample(range(BUS_COUNT), 2)
     random_indices = random.sample(range(BUS_SIZE), 2)
     student_1 = buses[random_buses[0]][random_indices[0]]
