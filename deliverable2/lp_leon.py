@@ -1,3 +1,4 @@
+import networkx as nx
 from pulp import *
 import os
 
