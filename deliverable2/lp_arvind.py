@@ -6,7 +6,7 @@ import numpy as np
 import time
 
 # Read in the graph
-G = nx.read_gml(path='all_inputs/small/145/graph.gml')
+G = nx.read_gml(path='all_inputs/large/1004/graph.gml') #large//1000 #small//146
 nodes = list(G.nodes())
 n = len(nodes)
 edges = list(G.edges())
@@ -25,7 +25,7 @@ for node in nodes:
 	count += 1
 
 # Get parameters for problem
-with open('all_inputs/small/145/parameters.txt') as f:
+with open('all_inputs/large/1004/parameters.txt') as f:
 	params = (f.read()).split('\n')
 	params = [e for e in params if e != ""]
 BUS_COUNT = int(params[0]) # k
@@ -41,7 +41,7 @@ for i in range(BUS_COUNT):
 	for u in range(n):
 		varname = 'b' + str(i) + '_' + str(u)
 		keyname = 'b[' + str(i) + '][' + str(u) + ']'
-		x = pulp.LpVariable(varname, cat='Binary') # lowBound=0, upBound=1
+		x = pulp.LpVariable(varname, lowBound=0, upBound=1, cat='Integer') #lowBound=0, upBound=1, cat='Integer'
 		variables[keyname] = x
 
 # Initialize the variables zi(u, v)+ and zi(u, v)-
@@ -53,8 +53,8 @@ for i in range(BUS_COUNT):
 		keyname1 = 'z' + str(i) + '[' + u + '][' + v + ']+'
 		varname2 = 'z_' + str(i) + '_' + u + '_' + v + '_' + 'minus'
 		keyname2 = 'z' + str(i) + '[' + u + '][' + v + ']-'
-		x = pulp.LpVariable(varname1, cat='Integer')
-		y = pulp.LpVariable(varname2, cat='Integer')
+		x = pulp.LpVariable(varname1, cat='Continuous')
+		y = pulp.LpVariable(varname2, cat='Continuous')
 		variables[keyname1] = x
 		variables[keyname2] = y
 
@@ -93,6 +93,8 @@ for i in range(BUS_COUNT):
 		func += variables['b[' + str(i) + '][' + str(u) + ']']
 	lp_problem += func <= BUS_SIZE
 	lp_problem += func >= 1
+
+# Constraint 4: rowdies
 
 # Solve the linear program
 print('starting to solve')
