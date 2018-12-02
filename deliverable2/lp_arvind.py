@@ -6,7 +6,7 @@ import numpy as np
 import time
 
 # Read in the graph
-G = nx.read_gml(path='all_inputs/large/1004/graph.gml') #large//1000 #small//146
+G = nx.read_gml(path='all_inputs/small/145/graph.gml') #large//1000 #small//146
 nodes = list(G.nodes())
 n = len(nodes)
 edges = list(G.edges())
@@ -25,7 +25,7 @@ for node in nodes:
 	count += 1
 
 # Get parameters for problem
-with open('all_inputs/large/1004/parameters.txt') as f:
+with open('all_inputs/small/145/parameters.txt') as f:
 	params = (f.read()).split('\n')
 	params = [e for e in params if e != ""]
 BUS_COUNT = int(params[0]) # k
@@ -95,11 +95,24 @@ for i in range(BUS_COUNT):
 	lp_problem += func >= 1
 
 # Constraint 4: rowdies
+# TODO: need to implement
 
 # Solve the linear program
 print('starting to solve')
 start = time.time()
-lp_problem.solve()
+lp_problem.solve() # TODO CHANGE SOLVER HERE: something like lp_problem.solve(pulp.solvers.COINMP_DLL(timeLimit=30))
 end = time.time()
 print(end - start, 'seconds taken')
-lp_problem.writeLP('finalLP.txt')
+# lp_problem.writeLP('finalLP.txt')
+
+# Get the variables
+solved_vars = lp_problem.variables()
+solved_bs = solved_vars[:n*BUS_COUNT]
+final_values = {b.name: b.varValue for b in solved_bs}
+print(final_values)
+student_assignments = [-50]*n
+for i in range(BUS_COUNT):
+	for u in range(n):
+		if final_values['b' + str(i) + '_' + str(u)] > 0.5: # can change
+			student_assignments[u] = i
+print(student_assignments)
