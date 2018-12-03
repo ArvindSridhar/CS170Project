@@ -54,6 +54,9 @@ def greedy_solve(graph, num_buses, size_bus, constraints):
     students = list(graph.nodes())
     buses = [[] for _ in range(num_buses)]
     for student in students:
+        empty_improve = 1
+        if empty_buses(buses) == remaining_students(students, student):
+            empty_improve = 1000000
         connections = [num_connections(bus, graph, student) for bus in buses]
         can_add_bus = [can_add(bus, student, size_bus) for bus in buses]
         negated = 0
@@ -62,14 +65,18 @@ def greedy_solve(graph, num_buses, size_bus, constraints):
                 connections[i] = -1
                 negated += 1
             if len(buses[i]) == 0:
-                connections[i] += 1
-
-        for i in range(num_buses - negated - 1):
+                connections[i] += empty_improve
+        for i in range(num_buses - negated):
+            if i == num_buses - negated - 1:
+                max_connection_bus = connections.index(max(connections))
+                buses[max_connection_bus].append(student)
+                break
             max_connection_bus = connections.index(max(connections))
             if not is_rowdy(buses[max_connection_bus], student, constraints):
                 buses[max_connection_bus].append(student)
                 break
             connections[max_connection_bus] = -1
+
     return buses
 
 
@@ -95,6 +102,19 @@ def is_rowdy(bus, student, constraints):
     return False
 
 
+# counts empty buses
+def empty_buses(buses):
+    ans = 0
+    for bus in buses:
+        if not bus:
+            ans += 1
+    return ans
+
+# count remaining students
+def remaining_students(students, student):
+    return len(students) - students.index(student)
+
+
 def main():
     '''
         Main method which iterates over all inputs and calls `solve` on each.
@@ -102,7 +122,7 @@ def main():
         the portion which writes it to a file to make sure their output is
         formatted correctly.
     '''
-    size_categories = ["small", "medium", "large"]
+    size_categories = ["medium"]
     if not os.path.isdir(path_to_outputs):
         os.mkdir(path_to_outputs)
 
@@ -116,6 +136,8 @@ def main():
 
         for input_folder in os.listdir(category_dir):
             input_name = os.fsdecode(input_folder)
+            if input_name == '198':
+                continue
             graph, num_buses, size_bus, constraints = parse_input(category_path + "/" + input_name)
             solution = solve(graph, num_buses, size_bus, constraints)
             output_file = open(output_category_path + "/" + input_name + ".out", "w")
