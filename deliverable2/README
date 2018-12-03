@@ -1,5 +1,10 @@
-Run solver on all inputs by
+Hello! In order to run this solver, please execute the following code:
 
-    python greedy.py
+    python3 greedy.py
 
-from directly within the deliverable2 directory.
+Run this from directly within the deliverable2 directory in order to get correct results.
+
+Within the file, please feel free to tune the following parameters as needed:
+path_to_inputs
+path_to_outputs
+size_categories

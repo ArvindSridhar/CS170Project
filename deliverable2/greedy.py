@@ -6,14 +6,14 @@ import os
 # the folder containing all three input
 # size category folders
 ###########################################
-path_to_inputs = "./inputs"
+path_to_inputs = "./all_inputs"
 
 ###########################################
 # Change this variable if you want
 # your outputs to be put in a
 # different folder
 ###########################################
-path_to_outputs = "./outputs"
+path_to_outputs = "./all_outputs_greedy"
 
 def parse_input(folder_name):
     '''
@@ -34,12 +34,10 @@ def parse_input(folder_name):
     num_buses = int(parameters.readline())
     size_bus = int(parameters.readline())
     constraints = []
-
     for line in parameters:
         line = line[1: -2]
         curr_constraint = [num.replace("'", "") for num in line.split(", ")]
         constraints.append(curr_constraint)
-
     return graph, num_buses, size_bus, constraints
 
 def solve(graph, num_buses, size_bus, constraints):
@@ -47,7 +45,7 @@ def solve(graph, num_buses, size_bus, constraints):
     solution = ""
     sol_array = greedy_solve(graph, num_buses, size_bus, constraints)
     for bus in sol_array:
-        solution += str(bus)[1:-1] + '\n'
+        solution += '[' + str(bus)[1:-1] + ']' + '\n'
     return solution
 
 def greedy_solve(graph, num_buses, size_bus, constraints):
@@ -76,9 +74,7 @@ def greedy_solve(graph, num_buses, size_bus, constraints):
                 buses[max_connection_bus].append(student)
                 break
             connections[max_connection_bus] = -1
-
     return buses
-
 
 # Returns the number of connections a student has in a given bus
 def num_connections(bus, graph, student):
@@ -88,21 +84,19 @@ def num_connections(bus, graph, student):
             ans += 1
     return ans
 
-# checks for bus size constraint
+# Checks for bus size constraint
 def can_add(bus, student, size_bus):
     return len(bus) < size_bus
 
-# checks for rowdiness
+# Checks for rowdiness
 def is_rowdy(bus, student, constraints):
     bus = bus + [student]
     for constraint in constraints:
         if all(kid in bus for kid in constraint):
             return True
-
     return False
 
-
-# counts empty buses
+# Counts empty buses
 def empty_buses(buses):
     ans = 0
     for bus in buses:
@@ -110,10 +104,9 @@ def empty_buses(buses):
             ans += 1
     return ans
 
-# count remaining students
+# Count remaining students
 def remaining_students(students, student):
     return len(students) - students.index(student)
-
 
 def main():
     '''
@@ -122,7 +115,7 @@ def main():
         the portion which writes it to a file to make sure their output is
         formatted correctly.
     '''
-    size_categories = ["medium"]
+    size_categories = ["large"]
     if not os.path.isdir(path_to_outputs):
         os.mkdir(path_to_outputs)
 
@@ -136,7 +129,7 @@ def main():
 
         for input_folder in os.listdir(category_dir):
             input_name = os.fsdecode(input_folder)
-            if input_name == '198':
+            if input_name == '198' or input_name == '.DS_Store':
                 continue
             graph, num_buses, size_bus, constraints = parse_input(category_path + "/" + input_name)
             solution = solve(graph, num_buses, size_bus, constraints)
