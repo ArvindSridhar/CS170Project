@@ -5,9 +5,9 @@ import pulp
 import numpy as np
 import time
 
-for input_example in range(1, 332): #21, 22
+for input_example in range(1, 332):
 	# Read in the graph
-	path_to_graph = 'all_inputs/small/' + str(input_example) + '/graph.gml'  #lcarge//1000 #scmall//146
+	path_to_graph = 'all_inputs/large/' + str(input_example) + '/graph.gml'
 	try:
 		G = nx.read_gml(path=path_to_graph)
 	except:
@@ -30,7 +30,7 @@ for input_example in range(1, 332): #21, 22
 		count += 1
 
 	# Get parameters for problem
-	path_to_params = 'all_inputs/small/' + str(input_example) + '/parameters.txt'
+	path_to_params = 'all_inputs/large/' + str(input_example) + '/parameters.txt'
 	with open(path_to_params) as f:
 		params = (f.read()).split('\n')
 		params = [e for e in params if e != ""]
@@ -47,7 +47,7 @@ for input_example in range(1, 332): #21, 22
 		for u in range(n):
 			varname = 'b' + str(i) + '_' + str(u)
 			keyname = 'b[' + str(i) + '][' + str(u) + ']'
-			x = pulp.LpVariable(varname, lowBound=0, upBound=1, cat='Integer') #lowBound=0, upBound=1, cat='Integer'
+			x = pulp.LpVariable(varname, lowBound=0, upBound=1, cat='Integer')
 			variables[keyname] = x
 
 	# Initialize the variables zi(u, v)+ and zi(u, v)-
@@ -113,7 +113,7 @@ for input_example in range(1, 332): #21, 22
 	# Solve the linear program
 	print('starting to solve')
 	start = time.time()
-	lp_problem.solve(pulp.solvers.GLPK_CMD()) # TODO CHANGE SOLVER HERE: something like lp_problem.solve(pulp.solvers.COINMP_DLL(timeLimit=30))
+	lp_problem.solve() #pulp.solvers.GLPK_CMD(), pulp.solvers.COINMP_DLL(timeLimit=30))
 	end = time.time()
 	print(end - start, 'seconds taken')
 
@@ -126,7 +126,7 @@ for input_example in range(1, 332): #21, 22
 		max_bus, maximizer = -50, 0
 		for i in range(BUS_COUNT):
 			score = final_values['b' + str(i) + '_' + str(u)]
-			if score > maximizer:
+			if score >= maximizer:
 				max_bus, maximizer = i, score
 		student_assignments[u] = max_bus
 	final_assignments = {}
@@ -134,6 +134,6 @@ for input_example in range(1, 332): #21, 22
 		final_assignments[i] = [idx for idx in range(len(student_assignments)) if student_assignments[idx] == i]
 
 	# Write to output file
-	output_file = open('all_outputs/small/' + str(input_example) + '.out', 'w')
+	output_file = open('all_outputs/large/' + str(input_example) + '.out', 'w')
 	for bus in final_assignments:
 		output_file.write("['" + "', '".join([hash2node[u] for u in final_assignments[bus]]) + "']\n")

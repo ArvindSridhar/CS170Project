@@ -2,9 +2,11 @@ Hello! In order to run this solver, please execute the following code:
 
     python3 greedy.py
 
-Run this from directly within the deliverable2 directory in order to get correct results.
+Run this from directly within the deliverable2 directory in order to get correct results
 
-Within the file, please feel free to tune the following parameters as needed:
+Within the file, please feel free to change the following parameters as needed:
 path_to_inputs
 path_to_outputs
 size_categories
+
+Also, note that we are not evaluating inputs with name '198' but instead are using our own solutions, since 198 is our team's own inputs
